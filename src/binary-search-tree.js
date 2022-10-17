@@ -29,26 +29,30 @@ class BinarySearchTree {
       this.rootN = newNode;
       return;
     }
+
     let currentNode = this.rootN;
+
     while (currentNode) {
-      if (newNode.data > currentNode) {
-        if (!currentNode.right) {
-          currentNode.right = newNode;
-          return;
-        }
-        currentNode = currentNode.right;
-      } else {
+      if (newNode.data < currentNode.data) {
         if (!currentNode.left) {
           currentNode.left = newNode;
           return;
         }
         currentNode = currentNode.left;
+      } else {
+        if (!currentNode.right) {
+          currentNode.right = newNode;
+          return;
+        }
+
+        currentNode = currentNode.right;
       }
     }
   }
 
   has(data) {
     let dataNode = this.rootN;
+
     while (dataNode) {
       if (dataNode.data === data) {
         return true;
@@ -63,52 +67,21 @@ class BinarySearchTree {
   }
 
   find(data) {
-    let findNode = this.rootN;
-    while (data !== findNode.data) {
-      if (data < findNode.data) {
-        findNode = findNode.left;
+    let dataNode = this.rootN;
+
+    while (data !== dataNode.data) {
+      if (data < dataNode.data) {
+        dataNode = dataNode.left;
       } else {
-        findNode = findNode.right;
+        dataNode = dataNode.right;
       }
-      if (findNode === null) {
-        return null;
-      }
+
+      if (dataNode === null) return null;
     }
-    return findNode;
+    return dataNode;
   }
 
-  remove(data) {
-    const ggRemove = function (Node, data) {
-      if (Node === null) return null;
-      if (data === Node.data) {
-        if (Node.left === null && Node.right === null) {
-          return null;
-        }
-
-        if (Node.left === null) {
-          return Node.right;
-        }
-
-        if (Node.right === null) return Node.left;
-
-        let curr = Node.right;
-
-        while (curr.left !== null) {
-          curr = curr.left;
-        }
-        Node.data = curr.data;
-        Node.right = ggRemove(Node.right, data);
-        return Node;
-      } else if (data > Node.data) {
-        Node.left = ggRemove(Node.left, data);
-        return Node;
-      } else {
-        Node.right == ggRemove(Node.right, data);
-        return Node;
-      }
-    };
-    this.rootN = ggRemove(this.rootN, data);
-  }
+  remove(data) {}
 
   min() {
     if (!this.rootN) return null;
@@ -126,13 +99,13 @@ class BinarySearchTree {
   max() {
     if (!this.rootN) return null;
     else {
-      let minNode = this.rootN;
-      while (minNode.right !== null) {
-        if (minNode) {
-          minNode = minNode.right;
+      let maxNode = this.rootN;
+      while (maxNode.right !== null) {
+        if (maxNode) {
+          maxNode = maxNode.right;
         }
       }
-      return minNode.data;
+      return maxNode.data;
     }
   }
 }
